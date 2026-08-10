@@ -12,3 +12,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://shahi-crunch-growth-engine.lovable.app/sitemap.xml
+
