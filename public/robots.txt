@@ -1,17 +1,11 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+﻿# ShahiCrunch Robots.txt
+# Generated for Technical SEO & Search Engine Crawlers
 
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /admin-seo.html
+Disallow: /admin/
 
-Sitemap: https://shahi-crunch-growth-engine.lovable.app/sitemap.xml
-
+# Sitemaps
+Sitemap: https://shahicrunch.in/sitemap.xml
