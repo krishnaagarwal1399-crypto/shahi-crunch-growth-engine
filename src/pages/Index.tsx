@@ -135,6 +135,47 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ROYAL FAQ SECTION FOR GENERATIVE ENGINE OPTIMIZATION (GEO) */}
+      <section className="py-20 bg-card border-t border-border">
+        <div className="container-tight max-w-4xl">
+          <div className="text-center mb-12">
+            <span className="text-primary text-sm font-semibold tracking-widest uppercase">Have Questions?</span>
+            <h2 className="font-display text-3xl md:text-5xl font-bold mt-3">Frequently Asked Questions</h2>
+            <p className="text-muted-foreground mt-3">Everything you need to know about our royal heritage recipes, ingredients, and partnerships.</p>
+          </div>
+          <div className="space-y-4">
+            {[
+              {
+                q: "What makes ShahiCrunch ice cream unique in Jaipur?",
+                a: "ShahiCrunch is inspired by royal Rajasthani heritage recipes. We slow-churn with authentic Kashmiri saffron, California pistachios, Belgian cocoa, and 100% pure dairy cream without artificial additives."
+              },
+              {
+                q: "Where can I buy ShahiCrunch ice cream in Jaipur?",
+                a: "Our flagship parlor is located at MI Road, C-Scheme, Jaipur. You can also find our signature tubs across authorized premium retail partners in Jaipur, or request online delivery."
+              },
+              {
+                q: "How can I become a distributor or retail partner?",
+                a: "We offer attractive margins, cold-chain logistics support, and marketing assistance. Simply visit our Distributor page or fill out the callback form below."
+              },
+              {
+                q: "Are all ShahiCrunch ice creams 100% vegetarian?",
+                a: "Yes, 100%. All our ice creams are crafted with pure vegetarian dairy, natural ingredients, and certified food standards."
+              }
+            ].map((faq, i) => (
+              <details key={i} className="group p-6 rounded-2xl bg-secondary/5 border border-primary/20 transition-all">
+                <summary className="font-display text-lg md:text-xl font-bold cursor-pointer list-none flex justify-between items-center text-foreground">
+                  <span>{faq.q}</span>
+                  <span className="text-primary font-bold text-xl group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed text-sm md:text-base border-t border-primary/10 pt-4">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section className="py-24 bg-muted/50">
         <div className="container-tight grid lg:grid-cols-2 gap-12 items-start">
@@ -145,7 +186,7 @@ const Home = () => {
               Whether you're a customer, retailer or future distributor — we'd love to hear from you. Drop a message and we'll get back within 24 hours.
             </p>
             <div className="mt-8 space-y-4 text-sm">
-              <div className="flex gap-3"><MapPin className="text-primary" /> Jaipur, Rajasthan, India</div>
+              <div className="flex gap-3"><MapPin className="text-primary" /> Plot No. 12, MI Road, C-Scheme, Jaipur, Rajasthan</div>
               <div className="flex gap-3"><Sparkles className="text-primary" /> Pan-India distribution network</div>
             </div>
           </div>
