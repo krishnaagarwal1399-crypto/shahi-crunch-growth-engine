@@ -1,0 +1,11 @@
+﻿# ShahiCrunch Robots.txt
+# Generated for Technical SEO & Search Engine Crawlers
+
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-seo.html
+Disallow: /admin/
+
+# Sitemaps
+Sitemap: https://shahicrunch.in/sitemap.xml
