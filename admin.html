@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShahiCrunch — WordPress-Grade CMS & On-Page SEO Management System</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Core CMS Stylesheet -->
+  <link rel="stylesheet" href="./admin-cms.css">
+</head>
+<body class="cms-body">
+
+  <!-- =========================================================================
+       ADMIN AUTHENTICATION LOCK SCREEN (If not logged in)
+       ========================================================================= -->
+  <div id="cms-auth-gate" class="cms-modal-backdrop" style="display: none; z-index: 9999;">
+    <div class="cms-modal-window" style="max-width: 440px;">
+      <div style="padding: 32px 28px; text-align: center;">
+        <div class="cms-brand-icon" style="margin: 0 auto 16px auto; width: 48px; height: 48px; font-size: 26px;">S</div>
+        <h2 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 6px;">ShahiCrunch CMS Portal</h2>
+        <p style="font-size: 12px; color: var(--cms-text-secondary); margin-bottom: 24px;">
+          Private &amp; Secure Administrator Authentication
+        </p>
+
+        <form id="cms-login-form" onsubmit="handleAdminLogin(event)" style="text-align: left; display: flex; flex-direction: column; gap: 14px;">
+          <div id="login-error-alert" style="display: none; padding: 10px; border-radius: 8px; background: var(--cms-error-bg); color: var(--cms-error); font-size: 12px; font-weight: 600;"></div>
+          
+          <div>
+            <label class="cms-label">Admin Email</label>
+            <input type="email" id="login-email" required value="admin@shahicrunch.in" class="cms-input" placeholder="admin@shahicrunch.in">
+          </div>
+
+          <div>
+            <label class="cms-label">Password</label>
+            <input type="password" id="login-password" required value="shahi2026" class="cms-input" placeholder="••••••••">
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--cms-text-muted);">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="login-remember" checked> Remember me
+            </label>
+            <span>Default: shahi2026</span>
+          </div>
+
+          <button type="submit" class="btn-cms btn-cms-primary" style="justify-content: center; padding: 12px; margin-top: 8px;">
+            Unlock CMS Admin Workspace →
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       1. CMS SIDEBAR (WordPress-Grade Navigation)
+       ========================================================================= -->
+  <aside class="cms-sidebar">
+    <div class="cms-brand">
+      <div class="cms-brand-icon">S</div>
+      <div class="cms-brand-text">
+        <h2>ShahiCrunch</h2>
+        <span>CMS &amp; SEO Master</span>
+      </div>
+    </div>
+
+    <nav class="cms-nav">
+      <div class="cms-nav-heading">Main Navigation</div>
+      <button class="cms-nav-item active" data-view="dashboard" onclick="navTo('dashboard')">
+        <div class="cms-nav-item-inner"><span>📊</span> <span>Dashboard</span></div>
+      </button>
+
+      <button class="cms-nav-item" data-view="pages" onclick="navTo('pages')">
+        <div class="cms-nav-item-inner"><span>📄</span> <span>Pages</span></div>
+        <span class="cms-badge gold" id="sidebar-pages-count">7 Pages</span>
+      </button>
+
+      <button class="cms-nav-item" data-view="editor" onclick="navTo('editor')">
+        <div class="cms-nav-item-inner"><span>✏️</span> <span>Page Editor &amp; SEO</span></div>
+        <span class="cms-badge pass">Live</span>
+      </button>
+
+      <button class="cms-nav-item" data-view="blog" onclick="navTo('blog')">
+        <div class="cms-nav-item-inner"><span>📰</span> <span>Blog &amp; Articles</span></div>
+        <span class="cms-badge">2 Posts</span>
+      </button>
+
+      <button class="cms-nav-item" data-view="media" onclick="navTo('media')">
+        <div class="cms-nav-item-inner"><span>🖼️</span> <span>Media Library</span></div>
+        <span class="cms-badge">5 Assets</span>
+      </button>
+
+      <div class="cms-nav-heading">SEO &amp; Structure</div>
+      <button class="cms-nav-item" data-view="seo" onclick="navTo('seo')">
+        <div class="cms-nav-item-inner"><span>🎯</span> <span>SEO Diagnostics</span></div>
+        <span class="cms-badge pass" id="sidebar-seo-health">PASS</span>
+      </button>
+
+      <button class="cms-nav-item" data-view="links" onclick="navTo('links')">
+        <div class="cms-nav-item-inner"><span>🔗</span> <span>Internal Links</span></div>
+      </button>
+
+      <button class="cms-nav-item" data-view="redirects" onclick="navTo('redirects')">
+        <div class="cms-nav-item-inner"><span>🔀</span> <span>301 Redirects</span></div>
+        <span class="cms-badge">2</span>
+      </button>
+
+      <button class="cms-nav-item" data-view="schema" onclick="navTo('schema')">
+        <div class="cms-nav-item-inner"><span>🧩</span> <span>Schema JSON-LD</span></div>
+      </button>
+
+      <div class="cms-nav-heading">System &amp; Audit</div>
+      <button class="cms-nav-item" data-view="history" onclick="navTo('history')">
+        <div class="cms-nav-item-inner"><span>📜</span> <span>Change History</span></div>
+        <span class="cms-badge gold" id="sidebar-history-count">3</span>
+      </button>
+
+      <button class="cms-nav-item" data-view="settings" onclick="navTo('settings')">
+        <div class="cms-nav-item-inner"><span>⚙️</span> <span>Site Settings</span></div>
+      </button>
+    </nav>
+
+    <div class="cms-sidebar-footer">
+      <div>
+        <div style="font-weight: 700; color: #FFF; font-size: 12px;">Admin Master</div>
+        <div style="font-size: 10px; color: var(--cms-text-muted);">admin@shahicrunch.in</div>
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <a href="./index.html" target="_blank" class="btn-cms !py-1 !px-2 !text-[11px]" title="Open Public Website">🌐 Site</a>
+        <button onclick="handleLogout()" class="btn-cms !py-1 !px-2 !text-[11px]" title="Logout">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       2. MAIN CONTENT AREA
+       ========================================================================= -->
+  <main class="cms-main">
+    <!-- Topbar -->
+    <header class="cms-topbar">
+      <div class="cms-breadcrumbs">
+        <span>Admin CMS</span>
+        <span>/</span>
+        <span class="current" id="top-breadcrumb-title">Dashboard</span>
+      </div>
+
+      <div class="cms-top-actions">
+        <!-- Target Page Selector for Quick Editing -->
+        <select id="top-page-selector" onchange="switchActivePage(this.value)" class="cms-select" style="width: 220px; padding: 7px 10px; font-size: 12px;">
+          <option value="/">Page: 🏠 Home (/)</option>
+          <option value="/about">Page: 📜 About Us (/about)</option>
+          <option value="/products">Page: 🍨 Flavors (/products)</option>
+          <option value="/distributor">Page: 🤝 Distributor (/distributor)</option>
+          <option value="/testimonials">Page: ⭐ Reviews (/testimonials)</option>
+          <option value="/contact">Page: 📞 Contact (/contact)</option>
+          <option value="/blog">Page: 📰 Blog (/blog)</option>
+        </select>
+
+        <button class="btn-cms btn-cms-outline-gold" onclick="triggerAiAssistantForCurrentPage()">
+          <span>⚡ AI SEO Assistant</span>
+        </button>
+
+        <button class="btn-cms" onclick="saveActivePageDraft()">
+          <span>💾 Save Draft</span>
+        </button>
+
+        <button class="btn-cms" onclick="openPreviewModal()">
+          <span>👁️ Live Preview</span>
+        </button>
+
+        <button class="btn-cms btn-cms-primary" onclick="publishActivePage()">
+          <span>🚀 Publish Changes</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Viewport Container -->
+    <div class="cms-viewport">
+
+      <!-- ===================================================================
+           VIEW 1: DASHBOARD
+           =================================================================== -->
+      <section id="view-dashboard" class="cms-view-section">
+        <!-- Stats Grid -->
+        <div class="cms-stats-grid">
+          <div class="cms-stat-card">
+            <div class="cms-stat-icon">📄</div>
+            <div>
+              <div class="cms-stat-value" id="dash-pages-count">7</div>
+              <div class="cms-stat-label">Managed Pages</div>
+            </div>
+          </div>
+          <div class="cms-stat-card">
+            <div class="cms-stat-icon">🎯</div>
+            <div>
+              <div class="cms-stat-value" style="color: var(--cms-pass);" id="dash-seo-status">100% PASS</div>
+              <div class="cms-stat-label">On-Page SEO Status</div>
+            </div>
+          </div>
+          <div class="cms-stat-card">
+            <div class="cms-stat-icon">🖼️</div>
+            <div>
+              <div class="cms-stat-value" id="dash-media-count">5</div>
+              <div class="cms-stat-label">Media Assets with ALT</div>
+            </div>
+          </div>
+          <div class="cms-stat-card">
+            <div class="cms-stat-icon">🔀</div>
+            <div>
+              <div class="cms-stat-value" id="dash-redirects-count">2</div>
+              <div class="cms-stat-label">Active 301 Redirects</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <!-- Quick Action Shortcuts -->
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <div class="cms-card-title">⚡ Quick Management Shortcuts</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <button class="btn-cms" onclick="switchActivePage('/'); navTo('editor');" style="justify-content: space-between; padding: 12px 16px;">
+                <span>🏠 Edit Home Page Content &amp; SEO</span>
+                <span>→</span>
+              </button>
+              <button class="btn-cms" onclick="switchActivePage('/products'); navTo('editor');" style="justify-content: space-between; padding: 12px 16px;">
+                <span>🍨 Edit Signature Flavors &amp; Alt Tags</span>
+                <span>→</span>
+              </button>
+              <button class="btn-cms" onclick="switchActivePage('/distributor'); navTo('editor');" style="justify-content: space-between; padding: 12px 16px;">
+                <span>🤝 Edit Distributorship Terms &amp; Margins</span>
+                <span>→</span>
+              </button>
+              <button class="btn-cms" onclick="navTo('media');" style="justify-content: space-between; padding: 12px 16px;">
+                <span>🖼️ Open Media Library &amp; Alt Text Auditor</span>
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Technical & Real Local Audit Summary -->
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <div class="cms-card-title">⚙️ Real Local Code &amp; SEO Audit</div>
+              <span class="cms-badge pass">Strict Local Analysis</span>
+            </div>
+            <div id="dash-audit-checklist" style="line-height: 1.8; font-size: 12px;">
+              <div>✓ <strong>Single H1 Tag:</strong> Verified on all pages</div>
+              <div>✓ <strong>Meta Descriptions:</strong> 100% configured within 140-160 chars</div>
+              <div>✓ <strong>Focus Keywords:</strong> Present in Title and H1</div>
+              <div>✓ <strong>Image Alt Attributes:</strong> All 5 catalog images have rich alt text</div>
+              <div>✓ <strong>Structured Data:</strong> Schema.org JSON-LD valid and active</div>
+              <div>✓ <strong>Canonical URLs:</strong> Self-referencing canonicals configured</div>
+              <div style="color: var(--cms-text-muted);">ℹ️ <em>Server headers &amp; DNS require external verification</em></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 2: PAGES CMS TABLE
+           =================================================================== -->
+      <section id="view-pages" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">📄 Website Pages Registry</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Select any page to open the complete Visual Content &amp; On-Page SEO Editor
+              </div>
+            </div>
+            <button class="btn-cms btn-cms-primary" onclick="switchActivePage('/'); navTo('editor');">
+              + Edit Active Page
+            </button>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Page Name</th>
+                  <th>URL Route</th>
+                  <th>Status</th>
+                  <th>Last Updated</th>
+                  <th>SEO Status</th>
+                  <th>Focus Keyword</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="pages-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 3: PAGE EDITOR & ON-PAGE SEO WORKSPACE
+           =================================================================== -->
+      <section id="view-editor" class="cms-view-section" style="display: none;">
+        <!-- Workspace Tabs -->
+        <div class="cms-tabs">
+          <button class="cms-tab-btn active" data-tab="content-blocks" onclick="switchEditorTab('content-blocks')">
+            <span>📝 Content &amp; Headings</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="onpage-seo" onclick="switchEditorTab('onpage-seo')">
+            <span>🎯 On-Page SEO Panel</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="seo-diagnostics" onclick="switchEditorTab('seo-diagnostics')">
+            <span>📊 SEO Diagnostics</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="search-preview" onclick="switchEditorTab('search-preview')">
+            <span>🔍 Google SERP Preview</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="live-preview" onclick="switchEditorTab('live-preview')">
+            <span>👁️ Multi-Device Preview &amp; Inspector</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="ai-assistant" onclick="switchEditorTab('ai-assistant')">
+            <span>⚡ AI Assistant &amp; Diff</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: Content & Headings Block Editor -->
+        <div id="tab-content-blocks" class="editor-tab-pane">
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <div class="cms-card-title">
+                <span>📝 Content Blocks for: </span>
+                <span style="color: var(--cms-gold);" id="editor-page-title-label">Home (/)</span>
+              </div>
+              <span class="cms-badge gold" id="editor-draft-status">Draft Active</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <!-- Left Column: Core Headlines -->
+              <div>
+                <div class="cms-form-group">
+                  <label class="cms-label">Page Subtitle / Top Badge</label>
+                  <input type="text" id="input-badge" class="cms-input" oninput="markDraftUnsaved()">
+                </div>
+
+                <div class="cms-form-group">
+                  <label class="cms-label">
+                    <span>H1 Main Heading *</span>
+                    <span id="h1-kw-indicator" class="cms-badge warn">Keyword Check</span>
+                  </label>
+                  <input type="text" id="input-h1" class="cms-input" style="font-size: 14px; font-weight: 700;" oninput="handleH1Input()">
+                  <div style="font-size: 11px; color: var(--cms-text-muted); margin-top: 4px;">
+                    This modifies the actual <code>&lt;h1&gt;</code> on the website.
+                  </div>
+                </div>
+
+                <div class="cms-form-group">
+                  <label class="cms-label">Introduction / Opening Paragraph</label>
+                  <textarea id="input-intro" rows="4" class="cms-textarea" oninput="markDraftUnsaved()"></textarea>
+                  <div style="font-size: 11px; color: var(--cms-text-muted); margin-top: 4px;">
+                    Should contain your focus keyword in the first 100 words.
+                  </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div class="cms-form-group">
+                    <label class="cms-label">Primary CTA Text</label>
+                    <input type="text" id="input-cta-primary-text" class="cms-input" oninput="markDraftUnsaved()">
+                  </div>
+                  <div class="cms-form-group">
+                    <label class="cms-label">Primary CTA URL</label>
+                    <input type="text" id="input-cta-primary-url" class="cms-input" oninput="markDraftUnsaved()">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Subheadings H2/H3 & Sections -->
+              <div>
+                <div class="cms-form-group">
+                  <label class="cms-label">Secondary CTA Text &amp; URL</label>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <input type="text" id="input-cta-secondary-text" class="cms-input" placeholder="Button Text" oninput="markDraftUnsaved()">
+                    <input type="text" id="input-cta-secondary-url" class="cms-input" placeholder="#link" oninput="markDraftUnsaved()">
+                  </div>
+                </div>
+
+                <div class="cms-form-group">
+                  <label class="cms-label">
+                    <span>H2 Section Subheadings</span>
+                    <button class="btn-cms !py-0.5 !px-2 !text-[10px]" onclick="addNewH2Prompt()">+ Add H2</button>
+                  </label>
+                  <div id="editor-h2-list" style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Rendered dynamically -->
+                  </div>
+                </div>
+
+                <div class="cms-form-group">
+                  <label class="cms-label">
+                    <span>H3 Component Subheadings</span>
+                    <button class="btn-cms !py-0.5 !px-2 !text-[10px]" onclick="addNewH3Prompt()">+ Add H3</button>
+                  </label>
+                  <div id="editor-h3-list" style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Rendered dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Flavors Catalog Block (When editing Home or Products) -->
+            <div id="flavors-editor-block" style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--cms-border);">
+              <div class="cms-card-title" style="margin-bottom: 14px;">🍨 Flavor Portfolio Content &amp; Alt Tags</div>
+              <div id="flavor-items-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: On-Page SEO Panel -->
+        <div id="tab-onpage-seo" class="editor-tab-pane" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <!-- Basic SEO -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <div class="cms-card-title">🎯 Basic Search Engine Optimization</div>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">
+                  <span>Focus Keyword *</span>
+                  <span style="font-size: 11px; color: var(--cms-gold);">Main Target Query</span>
+                </label>
+                <input type="text" id="input-focus-kw" class="cms-input" placeholder="e.g. ice cream jaipur" oninput="handleFocusKeywordInput()">
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">
+                  <span>SEO Title Tag *</span>
+                  <span id="title-counter-badge" class="cms-char-counter ok">0 / 60</span>
+                </label>
+                <input type="text" id="input-seo-title" class="cms-input" oninput="handleSeoTitleInput()">
+                <div style="font-size: 11px; color: var(--cms-text-muted); margin-top: 4px;">
+                  Optimal: 50–60 characters. Shows as the main clickable link on Google.
+                </div>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">
+                  <span>Meta Description *</span>
+                  <span id="desc-counter-badge" class="cms-char-counter ok">0 / 160</span>
+                </label>
+                <textarea id="input-meta-desc" rows="3" class="cms-textarea" oninput="handleMetaDescInput()"></textarea>
+                <div style="font-size: 11px; color: var(--cms-text-muted); margin-top: 4px;">
+                  Optimal: 140–160 characters. Influences search snippet click-through rates.
+                </div>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Secondary Keywords (Comma Separated)</label>
+                <input type="text" id="input-secondary-kws" class="cms-input" placeholder="keyword 1, keyword 2, keyword 3" oninput="markDraftUnsaved()">
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="cms-form-group">
+                  <label class="cms-label">Canonical URL</label>
+                  <input type="text" id="input-canonical" class="cms-input" oninput="markDraftUnsaved()">
+                </div>
+                <div class="cms-form-group">
+                  <label class="cms-label">Robots Meta</label>
+                  <select id="input-robots" class="cms-select" onchange="markDraftUnsaved()">
+                    <option value="index, follow">index, follow (Default - Allow Google)</option>
+                    <option value="noindex, follow">noindex, follow (Exclude from Search)</option>
+                    <option value="noindex, nofollow">noindex, nofollow (Private)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social SEO (OpenGraph & Twitter) -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <div class="cms-card-title">📱 Social Sharing SEO (OG &amp; Twitter)</div>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Open Graph Title (Facebook / WhatsApp)</label>
+                <input type="text" id="input-og-title" class="cms-input" oninput="markDraftUnsaved()">
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Open Graph Description</label>
+                <textarea id="input-og-desc" rows="2" class="cms-textarea" oninput="markDraftUnsaved()"></textarea>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Open Graph Image URL</label>
+                <input type="text" id="input-og-image" class="cms-input" oninput="markDraftUnsaved()">
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Twitter / X Card Title</label>
+                <input type="text" id="input-twitter-title" class="cms-input" oninput="markDraftUnsaved()">
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Twitter / X Card Description</label>
+                <textarea id="input-twitter-desc" rows="2" class="cms-textarea" oninput="markDraftUnsaved()"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Content SEO Diagnostics -->
+        <div id="tab-seo-diagnostics" class="editor-tab-pane" style="display: none;">
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <div>
+                <div class="cms-card-title">📊 Real Content SEO Diagnostics (Computed)</div>
+                <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 2px;">
+                  Real algorithmic checks against Google best practices. No fabricated scores.
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px;" id="diagnostics-summary-chips">
+                <!-- Badges rendered dynamically -->
+              </div>
+            </div>
+
+            <div id="diagnostics-checklist-container" style="display: flex; flex-direction: column; gap: 10px;">
+              <!-- Populated dynamically with PASS / WARNING / ERROR items -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: Google Search Preview -->
+        <div id="tab-search-preview" class="editor-tab-pane" style="display: none;">
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <div class="cms-card-title">🔍 Live Google Search Result Simulation</div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-cms active" id="btn-serp-desktop" onclick="setSerpDevice('desktop')">🖥️ Desktop SERP</button>
+                <button class="btn-cms" id="btn-serp-mobile" onclick="setSerpDevice('mobile')">📱 Mobile SERP</button>
+              </div>
+            </div>
+
+            <div style="max-width: 650px; margin: 0 auto; padding: 20px 0;">
+              <div class="google-serp-preview" id="serp-preview-box">
+                <div class="serp-url-line">
+                  <div class="serp-favicon">S</div>
+                  <div>
+                    <span style="font-weight: 500; color: #202124;">ShahiCrunch</span>
+                    <span style="color: #5f6368;" id="serp-url-text">https://shahicrunch.in</span>
+                  </div>
+                </div>
+                <div class="serp-title" id="serp-title-text">
+                  ShahiCrunch — Royal Taste in Every Crunch | Premium Ice Cream Jaipur
+                </div>
+                <div class="serp-snippet" id="serp-desc-text">
+                  ShahiCrunch is Jaipur's luxury ice cream brand crafting authentic Kesar Pista, Double Crunch, Chocolive &amp; Dry Fruit Raita. Distributor partnerships open across India.
+                </div>
+              </div>
+
+              <div id="serp-warnings-container" style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
+                <!-- Live SERP Truncation & Length Warnings -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: Visual SEO Element Inspector & Multi-Device Live Preview -->
+        <div id="tab-live-preview" class="editor-tab-pane" style="display: none;">
+          <div class="cms-split-layout">
+            <!-- Left Pane: Inspector Info -->
+            <div class="cms-split-pane-left">
+              <div class="cms-card">
+                <div class="cms-card-header">
+                  <div class="cms-card-title">🎯 Visual SEO Element Inspector</div>
+                  <label style="display: flex; align-items: center; gap: 6px; font-size: 11px; cursor: pointer;">
+                    <input type="checkbox" id="inspector-active-toggle" checked onchange="toggleInspectorMode(this.checked)">
+                    <span>Highlight Mode</span>
+                  </label>
+                </div>
+                <p style="font-size: 12px; color: var(--cms-text-secondary); margin-bottom: 16px;">
+                  Hover or click on any element in the live preview window to inspect its exact HTML tag, heading level, alt text, link destination, and on-page SEO compliance.
+                </p>
+
+                <div id="inspector-details-card" style="background: #0A0F1D; border: 1px solid var(--cms-border); border-radius: 10px; padding: 16px;">
+                  <div style="font-size: 11px; color: var(--cms-text-muted); text-transform: uppercase; margin-bottom: 6px;">
+                    Currently Inspected Element
+                  </div>
+                  <div style="font-size: 15px; font-weight: 700; color: var(--cms-gold); margin-bottom: 8px;" id="inspect-tag-badge">
+                    &lt;h1&gt; Main Heading
+                  </div>
+                  <div style="font-size: 12px; color: #FFF; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-bottom: 12px;" id="inspect-text-content">
+                    Experience the Royal Taste of ShahiCrunch
+                  </div>
+                  <div id="inspect-extra-fields" style="font-size: 12px; color: var(--cms-text-secondary); margin-bottom: 12px;">
+                    <div><strong>SEO Status:</strong> <span class="cms-badge pass">PASS (Keyword Included)</span></div>
+                  </div>
+                  <button class="btn-cms btn-cms-primary !w-full justify-center" onclick="switchEditorTab('content-blocks')">
+                    ✏️ Edit This Element in CMS Form
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Pane: Live Iframe Preview with Desktop/Tablet/Mobile frames -->
+            <div class="cms-split-pane-right">
+              <div class="cms-preview-toolbar">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 11px; font-weight: 600; color: var(--cms-text-secondary);">Device Frame:</span>
+                  <div class="cms-device-switcher">
+                    <button class="cms-device-btn active" id="btn-frame-desktop" onclick="setPreviewDevice('desktop')">🖥️ Desktop</button>
+                    <button class="cms-device-btn" id="btn-frame-tablet" onclick="setPreviewDevice('tablet')">📱 Tablet</button>
+                    <button class="cms-device-btn" id="btn-frame-mobile" onclick="setPreviewDevice('mobile')">📲 Mobile</button>
+                  </div>
+                </div>
+                <button class="btn-cms !py-1 !px-2.5 !text-xs" onclick="reloadPreviewIframe()">🔄 Refresh Frame</button>
+              </div>
+
+              <div class="cms-iframe-container">
+                <iframe id="live-page-iframe" src="./index.html" class="cms-preview-iframe desktop"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 6: AI SEO Assistant & Before / After Diff -->
+        <div id="tab-ai-assistant" class="editor-tab-pane" style="display: none;">
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <div>
+                <div class="cms-card-title">⚡ AI SEO Assistant — Intelligent Recommendations</div>
+                <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 2px;">
+                  Analyzes your actual page content and generates proposed improvements. Review, approve, and apply.
+                </div>
+              </div>
+              <button class="btn-cms btn-cms-primary" onclick="generateAndRenderAiDiff()">
+                🔄 Re-Analyze Content
+              </button>
+            </div>
+
+            <!-- Side-by-side BEFORE vs PROPOSED list -->
+            <div id="ai-diff-container" style="display: flex; flex-direction: column; gap: 16px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 4: BLOG CMS
+           =================================================================== -->
+      <section id="view-blog" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">📰 Royal Chronicles — Blog &amp; Article Manager</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Manage editorial articles, authorship, categories, and dedicated On-Page SEO per post.
+              </div>
+            </div>
+            <button class="btn-cms btn-cms-primary" onclick="openNewPostModal()">+ New Article</button>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Article Title</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th>Author</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="blog-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 5: MEDIA LIBRARY
+           =================================================================== -->
+      <section id="view-media" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">🖼️ Media Assets &amp; Alt-Text Management</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Inspect every image on the website, edit Alt Text directly, and flag missing or low-quality descriptions.
+              </div>
+            </div>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Preview</th>
+                  <th>Filename</th>
+                  <th>Dimensions &amp; Format</th>
+                  <th>Current Alt Text (Click to Edit)</th>
+                  <th>SEO Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="media-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 6: SEO CENTER (Global Diagnostics)
+           =================================================================== -->
+      <section id="view-seo" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div class="cms-card-title">🎯 Technical &amp; On-Page SEO Central Command</div>
+          </div>
+          <div id="seo-overview-matrix" style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 7: INTERNAL LINKS MANAGEMENT
+           =================================================================== -->
+      <section id="view-links" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">🔗 Internal Link Architecture Manager</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Manage page internal links, anchor text, and review intelligent link suggestions.
+              </div>
+            </div>
+            <button class="btn-cms btn-cms-primary" onclick="openAddLinkModal()">+ Add Internal Link</button>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Anchor Text</th>
+                  <th>Destination URL</th>
+                  <th>Target Type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="internal-links-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--cms-border);">
+            <div class="cms-card-title" style="margin-bottom: 10px;">💡 Recommended Internal Links for this Page</div>
+            <div id="smart-link-suggestions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 8: 301 REDIRECTS MANAGEMENT
+           =================================================================== -->
+      <section id="view-redirects" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">🔀 301 / 302 Redirects Management</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Safeguard search rankings and backlinks when page URLs are updated.
+              </div>
+            </div>
+            <button class="btn-cms btn-cms-primary" onclick="openAddRedirectModal()">+ Add Redirect</button>
+          </div>
+
+          <!-- SEO Warning Alert -->
+          <div style="padding: 12px 16px; border-radius: 8px; background: var(--cms-warn-bg); border: 1px solid rgba(245, 158, 11, 0.3); color: #F59E0B; margin-bottom: 16px; font-size: 12px;">
+            ⚠️ <strong>SEO Best Practice:</strong> Always use 301 Permanent Redirects when changing an established URL so Google transfers 95%+ of link equity and search ranking signals.
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>Old Source URL</th>
+                  <th>New Destination URL</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Date Added</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="redirects-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 9: SCHEMA JSON-LD BUILDER
+           =================================================================== -->
+      <section id="view-schema" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">🧩 Schema.org (JSON-LD) Structured Data Generator</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Enables rich snippets in Google Search results (ratings, address, hours, cuisine).
+              </div>
+            </div>
+            <button class="btn-cms btn-cms-primary" onclick="copySchemaJson()">📋 Copy JSON-LD</button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 350px 1fr; gap: 20px;">
+            <div>
+              <div class="cms-form-group">
+                <label class="cms-label">Schema Type</label>
+                <select id="schema-type-select" class="cms-select" onchange="handleSchemaTypeChange(this.value)">
+                  <option value="FoodEstablishment">FoodEstablishment (Ice Cream Brand)</option>
+                  <option value="Organization">Organization</option>
+                  <option value="WebPage">WebPage</option>
+                  <option value="ItemList">ItemList (Flavor Portfolio)</option>
+                  <option value="Article">Article (Editorial Post)</option>
+                </select>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Brand Name</label>
+                <input type="text" id="schema-name" class="cms-input" value="ShahiCrunch" readonly>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Location / City</label>
+                <input type="text" id="schema-locality" class="cms-input" value="Jaipur, Rajasthan" readonly>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Average Customer Rating</label>
+                <input type="text" id="schema-rating" class="cms-input" value="4.9 / 5 (2,840+ Reviews)" readonly>
+              </div>
+            </div>
+
+            <div>
+              <label class="cms-label">Live JSON-LD Script Output (Embedded in &lt;head&gt;)</label>
+              <textarea id="schema-json-output" rows="14" class="cms-textarea" style="font-family: 'Fira Code', monospace; font-size: 11px; background: #060912; color: #34D399;"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 10: CHANGE HISTORY & ROLLBACK
+           =================================================================== -->
+      <section id="view-history" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">📜 Change History &amp; One-Click Rollback</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Complete audit trail of every modification. Revert any change with a single click.
+              </div>
+            </div>
+          </div>
+
+          <div class="cms-table-wrapper">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Timestamp</th>
+                  <th>Page</th>
+                  <th>Field</th>
+                  <th>Previous Value</th>
+                  <th>New Value</th>
+                  <th>User</th>
+                  <th>Status</th>
+                  <th>Rollback</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 11: SITE SETTINGS
+           =================================================================== -->
+      <section id="view-settings" class="cms-view-section" style="display: none;">
+        <div class="cms-card">
+          <div class="cms-card-header">
+            <div>
+              <div class="cms-card-title">⚙️ Site-Wide Configuration &amp; Permanent Export</div>
+              <div style="font-size: 12px; color: var(--cms-text-muted); margin-top: 4px;">
+                Manage global identity, social links, robots.txt, sitemap, and export compiled static code.
+              </div>
+            </div>
+            <button class="btn-cms btn-cms-primary" onclick="saveSiteSettings()">💾 Save Settings</button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <div class="cms-form-group">
+                <label class="cms-label">Site Name</label>
+                <input type="text" id="settings-sitename" class="cms-input">
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Canonical Domain URL</label>
+                <input type="text" id="settings-siteurl" class="cms-input">
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Default SEO Title</label>
+                <input type="text" id="settings-default-title" class="cms-input">
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Default Meta Description</label>
+                <textarea id="settings-default-desc" rows="3" class="cms-textarea"></textarea>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Default Open Graph Image</label>
+                <input type="text" id="settings-default-og" class="cms-input">
+              </div>
+            </div>
+
+            <div>
+              <div class="cms-form-group">
+                <label class="cms-label">Robots.txt Content</label>
+                <textarea id="settings-robots" rows="6" class="cms-textarea" style="font-family: 'Fira Code', monospace; font-size: 11px;"></textarea>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Sitemap.xml Structure</label>
+                <textarea id="settings-sitemap" rows="7" class="cms-textarea" style="font-family: 'Fira Code', monospace; font-size: 11px;"></textarea>
+              </div>
+
+              <!-- Permanent Static Code Export -->
+              <div style="margin-top: 16px; padding: 16px; border-radius: 10px; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.2);">
+                <div style="font-weight: 700; color: var(--cms-gold); margin-bottom: 4px;">🚀 Permanent Code Export &amp; Snapshot</div>
+                <div style="font-size: 11px; color: var(--cms-text-secondary); margin-bottom: 10px;">
+                  Download updated HTML files with all published CMS modifications hardcoded into the source for zero-JS hosting.
+                </div>
+                <button class="btn-cms btn-cms-primary" onclick="exportStaticSnapshot()">
+                  📥 Download Compiled Static HTML Snapshot
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       TOAST CONTAINER
+       ========================================================================= -->
+  <div id="cms-toast-box" class="cms-toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="./cms-engine.js"></script>
+  <script>
+    // =========================================================================
+    // CMS CONTROLLER LOGIC
+    // =========================================================================
+
+    let activePageUrl = '/';
+    let currentView = 'dashboard';
+    let currentEditorTab = 'content-blocks';
+    let draftIsUnsaved = false;
+
+    // 1. Navigation Controller
+    function navTo(viewName) {
+      currentView = viewName;
+      document.querySelectorAll('.cms-nav-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-view') === viewName);
+      });
+
+      document.querySelectorAll('.cms-view-section').forEach(sec => sec.style.display = 'none');
+      const targetSec = document.getElementById(`view-${viewName}`);
+      if (targetSec) targetSec.style.display = 'block';
+
+      // Update Breadcrumb
+      const titles = {
+        dashboard: 'Dashboard',
+        pages: 'Pages Management',
+        editor: `Page Editor & SEO (${activePageUrl})`,
+        blog: 'Blog & Article Management',
+        media: 'Media Library & Alt Tags',
+        seo: 'Global SEO Diagnostics',
+        links: 'Internal Links Manager',
+        redirects: '301/302 Redirects',
+        schema: 'Schema (JSON-LD) Builder',
+        history: 'Change History & Rollback',
+        settings: 'Site Settings'
+      };
+      document.getElementById('top-breadcrumb-title').textContent = titles[viewName] || 'Dashboard';
+
+      // Render view-specific data
+      if (viewName === 'dashboard') renderDashboard();
+      if (viewName === 'pages') renderPagesTable();
+      if (viewName === 'editor') renderEditor();
+      if (viewName === 'blog') renderBlogTable();
+      if (viewName === 'media') renderMediaTable();
+      if (viewName === 'seo') renderSeoOverview();
+      if (viewName === 'links') renderLinksTable();
+      if (viewName === 'redirects') renderRedirectsTable();
+      if (viewName === 'schema') renderSchemaView();
+      if (viewName === 'history') renderHistoryTable();
+      if (viewName === 'settings') renderSettings();
+    }
+
+    // 2. Active Page Switcher
+    function switchActivePage(url) {
+      activePageUrl = url;
+      document.getElementById('top-page-selector').value = url;
+      if (currentView === 'editor') {
+        renderEditor();
+      }
+    }
+
+    // 3. Editor Tab Switcher
+    function switchEditorTab(tabId) {
+      currentEditorTab = tabId;
+      document.querySelectorAll('.cms-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+      });
+
+      document.querySelectorAll('.editor-tab-pane').forEach(pane => pane.style.display = 'none');
+      const targetPane = document.getElementById(`tab-${tabId}`);
+      if (targetPane) targetPane.style.display = 'block';
+
+      if (tabId === 'seo-diagnostics') renderDiagnosticsTab();
+      if (tabId === 'search-preview') renderSearchPreviewTab();
+      if (tabId === 'live-preview') reloadPreviewIframe();
+      if (tabId === 'ai-assistant') generateAndRenderAiDiff();
+    }
+
+    // 4. Render Dashboard
+    function renderDashboard() {
+      const allPages = CmsEngine.getAllPages(true);
+      const urls = Object.keys(allPages);
+      document.getElementById('dash-pages-count').textContent = urls.length;
+      document.getElementById('sidebar-pages-count').textContent = `${urls.length} Pages`;
+
+      const media = CmsEngine.getMediaList();
+      document.getElementById('dash-media-count').textContent = media.length;
+
+      const redirects = CmsEngine.getRedirects();
+      document.getElementById('dash-redirects-count').textContent = redirects.length;
+
+      const history = CmsEngine.getHistory();
+      document.getElementById('sidebar-history-count').textContent = history.length;
+    }
+
+    // 5. Render Pages Table
+    function renderPagesTable() {
+      const allPages = CmsEngine.getAllPages(true);
+      const tbody = document.getElementById('pages-table-body');
+      tbody.innerHTML = '';
+
+      Object.values(allPages).forEach(p => {
+        const analysis = CmsEngine.analyzePage(p.url, true);
+        const grade = analysis ? analysis.overallGrade : 'PASS';
+        const gradeClass = grade === 'PASS' ? 'pass' : (grade === 'WARNING' ? 'warn' : 'error');
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${p.name}</strong></td>
+          <td><code style="color: var(--cms-gold); font-size: 11px;">${p.url}</code></td>
+          <td><span class="cms-badge ${p.status === 'Published' ? 'pass' : 'warn'}">${p.status}</span></td>
+          <td style="color: var(--cms-text-muted); font-size: 11px;">${p.lastUpdated || '2026-09-04'}</td>
+          <td><span class="cms-badge ${gradeClass}">${grade} (${analysis ? analysis.errorCount : 0} Err, ${analysis ? analysis.warningCount : 0} Warn)</span></td>
+          <td style="font-size: 11px; color: var(--cms-text-primary);">${p.seo?.focusKeyword || '(Not set)'}</td>
+          <td>
+            <button class="btn-cms btn-cms-primary !py-1 !px-2.5 !text-xs" onclick="switchActivePage('${p.url}'); navTo('editor');">
+              Edit Page →
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // 6. Render Page Editor
+    function renderEditor() {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (!page) return;
+
+      document.getElementById('editor-page-title-label').textContent = `${page.name} (${page.url})`;
+      document.getElementById('editor-draft-status').textContent = page.status === 'Published' ? 'Published Live' : 'Draft Active';
+      document.getElementById('editor-draft-status').className = `cms-badge ${page.status === 'Published' ? 'pass' : 'warn'}`;
+
+      const content = page.content || {};
+      const seo = page.seo || {};
+
+      // Content Fields
+      document.getElementById('input-badge').value = content.badgeText || '';
+      document.getElementById('input-h1').value = content.h1 || '';
+      document.getElementById('input-intro').value = content.introParagraph || '';
+      document.getElementById('input-cta-primary-text').value = content.ctaPrimaryText || '';
+      document.getElementById('input-cta-primary-url').value = content.ctaPrimaryUrl || '';
+      document.getElementById('input-cta-secondary-text').value = content.ctaSecondaryText || '';
+      document.getElementById('input-cta-secondary-url').value = content.ctaSecondaryUrl || '';
+
+      handleH1Input();
+
+      // H2 List
+      const h2Container = document.getElementById('editor-h2-list');
+      h2Container.innerHTML = '';
+      (content.h2s || []).forEach((h2, idx) => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.gap = '8px';
+        row.innerHTML = `
+          <input type="text" value="${h2}" class="cms-input" style="flex:1;" oninput="updateH2(${idx}, this.value)">
+          <button class="btn-cms btn-cms-danger !py-1 !px-2.5" onclick="removeH2(${idx})">✕</button>
+        `;
+        h2Container.appendChild(row);
+      });
+
+      // H3 List
+      const h3Container = document.getElementById('editor-h3-list');
+      h3Container.innerHTML = '';
+      (content.h3s || []).forEach((h3, idx) => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.gap = '8px';
+        row.innerHTML = `
+          <input type="text" value="${h3}" class="cms-input" style="flex:1;" oninput="updateH3(${idx}, this.value)">
+          <button class="btn-cms btn-cms-danger !py-1 !px-2.5" onclick="removeH3(${idx})">✕</button>
+        `;
+        h3Container.appendChild(row);
+      });
+
+      // Flavors Editor
+      const flavBlock = document.getElementById('flavors-editor-block');
+      if (activePageUrl === '/' || activePageUrl === '/products') {
+        flavBlock.style.display = 'block';
+        renderFlavorItems(content.flavorItems || []);
+      } else {
+        flavBlock.style.display = 'none';
+      }
+
+      // SEO Fields
+      document.getElementById('input-focus-kw').value = seo.focusKeyword || '';
+      document.getElementById('input-seo-title').value = seo.title || '';
+      document.getElementById('input-meta-desc').value = seo.metaDescription || '';
+      document.getElementById('input-secondary-kws').value = (seo.secondaryKeywords || []).join(', ');
+      document.getElementById('input-canonical').value = seo.canonicalUrl || '';
+      document.getElementById('input-robots').value = seo.robots || 'index, follow';
+
+      // Social SEO
+      document.getElementById('input-og-title').value = seo.ogTitle || '';
+      document.getElementById('input-og-desc').value = seo.ogDescription || '';
+      document.getElementById('input-og-image').value = seo.ogImage || '';
+      document.getElementById('input-twitter-title').value = seo.twitterTitle || '';
+      document.getElementById('input-twitter-desc').value = seo.twitterDescription || '';
+
+      handleSeoTitleInput();
+      handleMetaDescInput();
+    }
+
+    function renderFlavorItems(items) {
+      const container = document.getElementById('flavor-items-container');
+      container.innerHTML = '';
+      items.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.style.background = '#0B101E';
+        card.style.padding = '14px';
+        card.style.borderRadius = '10px';
+        card.style.border = '1px solid var(--cms-border)';
+        card.innerHTML = `
+          <div style="display: flex; gap: 12px; margin-bottom: 8px;">
+            <img src="${item.image}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
+            <div style="flex:1;">
+              <input type="text" value="${item.name}" class="cms-input" style="font-weight:700; margin-bottom: 4px;" oninput="updateFlavorItem(${idx}, 'name', this.value)">
+              <input type="text" value="${item.tag}" class="cms-input !py-1 !text-xs" oninput="updateFlavorItem(${idx}, 'tag', this.value)">
+            </div>
+          </div>
+          <div>
+            <label class="cms-label" style="font-size: 10px;">Image Alt Text (SEO)</label>
+            <input type="text" value="${item.alt}" class="cms-input !text-xs" oninput="updateFlavorItem(${idx}, 'alt', this.value)">
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function updateFlavorItem(idx, field, val) {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (page.content?.flavorItems?.[idx]) {
+        page.content.flavorItems[idx][field] = val;
+        markDraftUnsaved();
+      }
+    }
+
+    // Input Handlers
+    function handleH1Input() {
+      const h1Val = document.getElementById('input-h1').value;
+      const kw = document.getElementById('input-focus-kw').value.toLowerCase().trim();
+      const badge = document.getElementById('h1-kw-indicator');
+
+      if (kw && h1Val.toLowerCase().includes(kw)) {
+        badge.textContent = 'Keyword Match ✓';
+        badge.className = 'cms-badge pass';
+      } else {
+        badge.textContent = 'Missing Keyword';
+        badge.className = 'cms-badge warn';
+      }
+      markDraftUnsaved();
+    }
+
+    function handleFocusKeywordInput() {
+      handleH1Input();
+      handleSeoTitleInput();
+    }
+
+    function handleSeoTitleInput() {
+      const val = document.getElementById('input-seo-title').value;
+      const len = val.length;
+      const counter = document.getElementById('title-counter-badge');
+      counter.textContent = `${len} / 60 Chars`;
+
+      if (len >= 50 && len <= 60) counter.className = 'cms-char-counter ok';
+      else if (len < 50) counter.className = 'cms-char-counter warn';
+      else counter.className = 'cms-char-counter error';
+
+      updateSerpMock();
+      markDraftUnsaved();
+    }
+
+    function handleMetaDescInput() {
+      const val = document.getElementById('input-meta-desc').value;
+      const len = val.length;
+      const counter = document.getElementById('desc-counter-badge');
+      counter.textContent = `${len} / 160 Chars`;
+
+      if (len >= 140 && len <= 160) counter.className = 'cms-char-counter ok';
+      else if (len < 140) counter.className = 'cms-char-counter warn';
+      else counter.className = 'cms-char-counter error';
+
+      updateSerpMock();
+      markDraftUnsaved();
+    }
+
+    function updateH2(idx, val) {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (page.content?.h2s) page.content.h2s[idx] = val;
+      markDraftUnsaved();
+    }
+
+    function removeH2(idx) {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (page.content?.h2s) {
+        page.content.h2s.splice(idx, 1);
+        renderEditor();
+        markDraftUnsaved();
+      }
+    }
+
+    function addNewH2Prompt() {
+      const newH2 = prompt('Enter new H2 subheading:');
+      if (newH2) {
+        const page = CmsEngine.getPage(activePageUrl, true);
+        if (!page.content.h2s) page.content.h2s = [];
+        page.content.h2s.push(newH2);
+        renderEditor();
+        markDraftUnsaved();
+      }
+    }
+
+    function updateH3(idx, val) {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (page.content?.h3s) page.content.h3s[idx] = val;
+      markDraftUnsaved();
+    }
+
+    function removeH3(idx) {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (page.content?.h3s) {
+        page.content.h3s.splice(idx, 1);
+        renderEditor();
+        markDraftUnsaved();
+      }
+    }
+
+    function addNewH3Prompt() {
+      const newH3 = prompt('Enter new H3 subheading:');
+      if (newH3) {
+        const page = CmsEngine.getPage(activePageUrl, true);
+        if (!page.content.h3s) page.content.h3s = [];
+        page.content.h3s.push(newH3);
+        renderEditor();
+        markDraftUnsaved();
+      }
+    }
+
+    function markDraftUnsaved() {
+      draftIsUnsaved = true;
+      document.getElementById('editor-draft-status').textContent = 'Draft Unsaved *';
+      document.getElementById('editor-draft-status').className = 'cms-badge warn';
+    }
+
+    // 7. Save Draft
+    function saveActivePageDraft() {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (!page) return;
+
+      // Extract current values from form
+      const updatedContent = {
+        ...page.content,
+        badgeText: document.getElementById('input-badge').value,
+        h1: document.getElementById('input-h1').value,
+        introParagraph: document.getElementById('input-intro').value,
+        ctaPrimaryText: document.getElementById('input-cta-primary-text').value,
+        ctaPrimaryUrl: document.getElementById('input-cta-primary-url').value,
+        ctaSecondaryText: document.getElementById('input-cta-secondary-text').value,
+        ctaSecondaryUrl: document.getElementById('input-cta-secondary-url').value
+      };
+
+      const updatedSeo = {
+        ...page.seo,
+        focusKeyword: document.getElementById('input-focus-kw').value,
+        title: document.getElementById('input-seo-title').value,
+        metaDescription: document.getElementById('input-meta-desc').value,
+        secondaryKeywords: document.getElementById('input-secondary-kws').value.split(',').map(s => s.trim()).filter(Boolean),
+        canonicalUrl: document.getElementById('input-canonical').value,
+        robots: document.getElementById('input-robots').value,
+        ogTitle: document.getElementById('input-og-title').value,
+        ogDescription: document.getElementById('input-og-desc').value,
+        ogImage: document.getElementById('input-og-image').value,
+        twitterTitle: document.getElementById('input-twitter-title').value,
+        twitterDescription: document.getElementById('input-twitter-desc').value
+      };
+
+      CmsEngine.saveDraft(activePageUrl, { content: updatedContent, seo: updatedSeo, status: 'Draft' });
+      draftIsUnsaved = false;
+      document.getElementById('editor-draft-status').textContent = 'Draft Saved';
+      document.getElementById('editor-draft-status').className = 'cms-badge gold';
+
+      showToast(`💾 Draft for ${page.name} saved successfully.`);
+      reloadPreviewIframe();
+    }
+
+    // 8. Publish Changes to Website
+    function publishActivePage() {
+      // First ensure draft has latest inputs
+      saveActivePageDraft();
+
+      const res = CmsEngine.publishPage(activePageUrl, 'Admin Master');
+      if (res.success) {
+        document.getElementById('editor-draft-status').textContent = 'Published Live ✓';
+        document.getElementById('editor-draft-status').className = 'cms-badge pass';
+
+        showToast(`🚀 Published! ${res.page.name} is now updated on the live website.`);
+        renderDashboard();
+        renderHistoryTable();
+        reloadPreviewIframe();
+      }
+    }
+
+    // 9. Diagnostics Tab
+    function renderDiagnosticsTab() {
+      // Save draft first to get accurate diagnostics
+      saveActivePageDraft();
+      const analysis = CmsEngine.analyzePage(activePageUrl, true);
+      if (!analysis) return;
+
+      const chipsBox = document.getElementById('diagnostics-summary-chips');
+      chipsBox.innerHTML = `
+        <span class="cms-badge ${analysis.overallGrade === 'PASS' ? 'pass' : (analysis.overallGrade === 'WARNING' ? 'warn' : 'error')}">
+          Grade: ${analysis.overallGrade}
+        </span>
+        <span class="cms-badge pass">${analysis.passCount} Passed</span>
+        <span class="cms-badge warn">${analysis.warningCount} Warnings</span>
+        <span class="cms-badge error">${analysis.errorCount} Errors</span>
+        <span class="cms-badge">Word Count: ${analysis.wordCount}</span>
+        <span class="cms-badge">Keyword Density: ${analysis.kwDensity}%</span>
+      `;
+
+      const list = document.getElementById('diagnostics-checklist-container');
+      list.innerHTML = '';
+      analysis.checks.forEach(check => {
+        const item = document.createElement('div');
+        const badgeClass = check.status === 'PASS' ? 'pass' : (check.status === 'WARNING' ? 'warn' : 'error');
+        item.style.padding = '12px 16px';
+        item.style.borderRadius = '8px';
+        item.style.background = '#0A0F1D';
+        item.style.border = '1px solid var(--cms-border)';
+        item.style.display = 'flex';
+        item.style.alignItems = 'center';
+        item.style.justifyContent = 'space-between';
+
+        item.innerHTML = `
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+              <span class="cms-badge ${badgeClass}">${check.status}</span>
+              <strong style="color: #FFF; font-size: 13px;">${check.name}</strong>
+            </div>
+            <div style="font-size: 12px; color: var(--cms-text-secondary);">${check.message}</div>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    // 10. Search Preview Tab
+    function renderSearchPreviewTab() {
+      updateSerpMock();
+    }
+
+    function updateSerpMock() {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      const title = document.getElementById('input-seo-title')?.value || page?.seo?.title || '';
+      const desc = document.getElementById('input-meta-desc')?.value || page?.seo?.metaDescription || '';
+
+      const serpTitle = document.getElementById('serp-title-text');
+      const serpDesc = document.getElementById('serp-desc-text');
+      const serpUrl = document.getElementById('serp-url-text');
+
+      if (serpTitle) serpTitle.textContent = title;
+      if (serpDesc) serpDesc.textContent = desc;
+      if (serpUrl) serpUrl.textContent = `https://shahicrunch.in${activePageUrl === '/' ? '' : activePageUrl}`;
+
+      // SERP Warnings
+      const warningsBox = document.getElementById('serp-warnings-container');
+      if (!warningsBox) return;
+      warningsBox.innerHTML = '';
+
+      if (title.length > 60) {
+        warningsBox.innerHTML += `<div class="cms-badge warn">⚠️ Title is ${title.length} characters long. Search results may truncate it after 60 chars.</div>`;
+      }
+      if (desc.length > 160) {
+        warningsBox.innerHTML += `<div class="cms-badge warn">⚠️ Description is ${desc.length} characters long. Search snippets may truncate it after 160 chars.</div>`;
+      }
+    }
+
+    function setSerpDevice(device) {
+      document.getElementById('btn-serp-desktop').classList.toggle('active', device === 'desktop');
+      document.getElementById('btn-serp-mobile').classList.toggle('active', device === 'mobile');
+      const box = document.getElementById('serp-preview-box');
+      if (device === 'mobile') {
+        box.style.maxWidth = '375px';
+        box.style.margin = '0 auto';
+      } else {
+        box.style.maxWidth = '650px';
+      }
+    }
+
+    // 11. Multi-Device Frame & Element Inspector
+    function setPreviewDevice(device) {
+      document.getElementById('btn-frame-desktop').classList.toggle('active', device === 'desktop');
+      document.getElementById('btn-frame-tablet').classList.toggle('active', device === 'tablet');
+      document.getElementById('btn-frame-mobile').classList.toggle('active', device === 'mobile');
+
+      const iframe = document.getElementById('live-page-iframe');
+      iframe.className = `cms-preview-iframe ${device}`;
+    }
+
+    function reloadPreviewIframe() {
+      const iframe = document.getElementById('live-page-iframe');
+      if (!iframe) return;
+      const targetPath = activePageUrl === '/' ? './index.html' : `.${activePageUrl}.html`;
+      iframe.src = `${targetPath}?preview=${Date.now()}`;
+
+      iframe.onload = () => {
+        attachInspectorToIframe();
+      };
+    }
+
+    function attachInspectorToIframe() {
+      try {
+        const iframe = document.getElementById('live-page-iframe');
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+
+        doc.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const target = e.target;
+          const tagName = target.tagName.toLowerCase();
+          const text = target.innerText || target.alt || '';
+
+          document.getElementById('inspect-tag-badge').textContent = `<${tagName}> ${tagName.toUpperCase()}`;
+          document.getElementById('inspect-text-content').textContent = text || '(Empty content)';
+
+          let extraHtml = `<div><strong>Tag:</strong> <code>&lt;${tagName}&gt;</code></div>`;
+          if (tagName === 'img') {
+            extraHtml += `<div><strong>Alt Text:</strong> "${target.alt || 'MISSING'}"</div>`;
+            extraHtml += `<div><strong>Source:</strong> ${target.src}</div>`;
+          }
+          if (tagName === 'a') {
+            extraHtml += `<div><strong>Href:</strong> ${target.href}</div>`;
+          }
+
+          document.getElementById('inspect-extra-fields').innerHTML = extraHtml;
+          showToast(`🎯 Inspected <${tagName}> element.`);
+        });
+      } catch (err) {
+        console.warn('Iframe inspection cross-origin limit:', err);
+      }
+    }
+
+    function toggleInspectorMode(enabled) {
+      showToast(enabled ? '🎯 SEO Element Inspector Active: Click elements in preview.' : 'Inspector Highlight Disabled.');
+    }
+
+    // 12. AI SEO Assistant & Before / After Diff
+    function triggerAiAssistantForCurrentPage() {
+      navTo('editor');
+      switchEditorTab('ai-assistant');
+    }
+
+    function generateAndRenderAiDiff() {
+      saveActivePageDraft();
+      const recs = CmsEngine.generateAiRecommendations(activePageUrl);
+      const container = document.getElementById('ai-diff-container');
+      container.innerHTML = '';
+
+      recs.forEach((rec, idx) => {
+        const card = document.createElement('div');
+        card.style.background = '#0A0F1D';
+        card.style.border = '1px solid var(--cms-border)';
+        card.style.borderRadius = '12px';
+        card.style.padding = '18px';
+
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="color: var(--cms-gold); font-size: 14px;">${rec.element} Optimization</strong>
+            <span class="cms-badge warn">AI Recommendation</span>
+          </div>
+          <div style="font-size: 12px; color: var(--cms-text-secondary); margin-bottom: 12px;">
+            <strong>Issue:</strong> ${rec.issue}<br>
+            <strong>Why it matters:</strong> ${rec.why}
+          </div>
+
+          <!-- BEFORE VS AFTER SIDE BY SIDE -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+            <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 8px; padding: 12px;">
+              <div style="font-size: 10px; font-weight: 700; color: var(--cms-error); text-transform: uppercase; margin-bottom: 4px;">CURRENT VALUE</div>
+              <div style="font-size: 12px; color: #FFF;">"${rec.currentValue || '(Empty)'}"</div>
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 12px;">
+              <div style="font-size: 10px; font-weight: 700; color: var(--cms-pass); text-transform: uppercase; margin-bottom: 4px;">PROPOSED VALUE</div>
+              <div style="font-size: 12px; color: #FFF; font-weight: 600;">"${rec.proposedValue}"</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn-cms btn-cms-primary !py-1.5 !px-4" onclick="applyAiRecommendation(${idx})">
+              ✓ Approve &amp; Apply
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function applyAiRecommendation(idx) {
+      const recs = CmsEngine.generateAiRecommendations(activePageUrl);
+      const rec = recs[idx];
+      if (!rec) return;
+
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (rec.fieldPath === 'seo.title') {
+        page.seo.title = rec.proposedValue;
+        document.getElementById('input-seo-title').value = rec.proposedValue;
+      } else if (rec.fieldPath === 'seo.metaDescription') {
+        page.seo.metaDescription = rec.proposedValue;
+        document.getElementById('input-meta-desc').value = rec.proposedValue;
+      } else if (rec.fieldPath === 'content.h1') {
+        page.content.h1 = rec.proposedValue;
+        document.getElementById('input-h1').value = rec.proposedValue;
+      }
+
+      saveActivePageDraft();
+      showToast(`✓ Applied proposed ${rec.element} to draft.`);
+      generateAndRenderAiDiff();
+    }
+
+    // 13. Media Library Table
+    function renderMediaTable() {
+      const media = CmsEngine.getMediaList();
+      const tbody = document.getElementById('media-table-body');
+      tbody.innerHTML = '';
+
+      media.forEach(m => {
+        const tr = document.createElement('tr');
+        const isMissing = !m.alt || m.alt.trim().length === 0;
+        const isGeneric = m.alt && (m.alt.toLowerCase().includes('image') || m.alt.toLowerCase().includes('photo'));
+        const badge = isMissing ? '<span class="cms-badge error">Missing Alt</span>' : (isGeneric ? '<span class="cms-badge warn">Generic Alt</span>' : '<span class="cms-badge pass">PASS</span>');
+
+        tr.innerHTML = `
+          <td><img src="${m.url}" style="width: 54px; height: 54px; object-fit: cover; border-radius: 8px;"></td>
+          <td><strong>${m.filename}</strong><div style="font-size: 10px; color: var(--cms-text-muted);">${m.title}</div></td>
+          <td>${m.dimensions} (${m.format})</td>
+          <td>
+            <input type="text" id="media-alt-${m.id}" value="${m.alt}" class="cms-input" style="font-size: 12px; width: 320px;">
+          </td>
+          <td>${badge}</td>
+          <td>
+            <button class="btn-cms btn-cms-primary !py-1 !px-2.5 !text-xs" onclick="saveMediaAlt('${m.id}')">
+              💾 Save Alt
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function saveMediaAlt(mediaId) {
+      const input = document.getElementById(`media-alt-${mediaId}`);
+      if (!input) return;
+      const res = CmsEngine.updateImageAlt(mediaId, input.value, 'Admin Master');
+      if (res.success) {
+        showToast(`✓ Updated Alt Text for ${res.media.filename}`);
+        renderMediaTable();
+        renderDashboard();
+      }
+    }
+
+    // 14. Internal Links Table
+    function renderLinksTable() {
+      const links = CmsEngine.getInternalLinks(activePageUrl);
+      const tbody = document.getElementById('internal-links-table-body');
+      tbody.innerHTML = '';
+
+      links.forEach((link, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><input type="text" value="${link.anchor}" class="cms-input !py-1" onchange="updateLinkAnchor(${idx}, this.value)"></td>
+          <td><code style="color: var(--cms-gold);">${link.href}</code></td>
+          <td><span class="cms-badge">${link.target}</span></td>
+          <td>
+            <button class="btn-cms btn-cms-danger !py-1 !px-2" onclick="removeLink(${idx})">✕ Remove</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Render suggestions
+      const suggestions = CmsEngine.getSmartLinkSuggestions(activePageUrl);
+      const suggBox = document.getElementById('smart-link-suggestions');
+      suggBox.innerHTML = suggestions.map(s => `
+        <div style="background: #0B101E; border: 1px solid var(--cms-border); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="color: #FFF; font-size: 13px;">${s.pageName}</strong>
+            <div style="font-size: 11px; color: var(--cms-text-secondary);">${s.reason}</div>
+          </div>
+          <button class="btn-cms !py-1 !px-2.5 !text-xs" onclick="addSuggestedLink('${s.recommendedAnchor}', '${s.suggestedUrl}')">
+            + Add Link
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function updateLinkAnchor(idx, newAnchor) {
+      const links = CmsEngine.getInternalLinks(activePageUrl);
+      if (links[idx]) {
+        links[idx].anchor = newAnchor;
+        showToast('✓ Updated anchor text.');
+      }
+    }
+
+    function removeLink(idx) {
+      CmsEngine.removeInternalLink(activePageUrl, idx);
+      renderLinksTable();
+      showToast('Removed link.');
+    }
+
+    function addSuggestedLink(anchor, href) {
+      CmsEngine.addInternalLink(activePageUrl, anchor, href, 'internal');
+      renderLinksTable();
+      showToast(`+ Added link to ${anchor}`);
+    }
+
+    function openAddLinkModal() {
+      const anchor = prompt('Enter link anchor text:');
+      const href = prompt('Enter destination URL (e.g. ./products.html):');
+      if (anchor && href) {
+        CmsEngine.addInternalLink(activePageUrl, anchor, href, 'internal');
+        renderLinksTable();
+        showToast('+ Link created.');
+      }
+    }
+
+    // 15. Redirects Table
+    function renderRedirectsTable() {
+      const redirects = CmsEngine.getRedirects();
+      const tbody = document.getElementById('redirects-table-body');
+      tbody.innerHTML = '';
+
+      redirects.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><code style="color: var(--cms-error);">${r.oldUrl}</code></td>
+          <td><code style="color: var(--cms-pass);">${r.newUrl}</code></td>
+          <td><span class="cms-badge pass">${r.type} Permanent</span></td>
+          <td><span class="cms-badge pass">${r.status}</span></td>
+          <td style="font-size: 11px; color: var(--cms-text-muted);">${r.dateAdded}</td>
+          <td>
+            <button class="btn-cms btn-cms-danger !py-1 !px-2" onclick="deleteRedirect('${r.id}')">✕ Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deleteRedirect(id) {
+      CmsEngine.deleteRedirect(id);
+      renderRedirectsTable();
+      showToast('Redirect removed.');
+    }
+
+    function openAddRedirectModal() {
+      const oldUrl = prompt('Enter Old URL path (e.g. /shop):');
+      const newUrl = prompt('Enter New URL path (e.g. /products):');
+      if (oldUrl && newUrl) {
+        CmsEngine.addRedirect(oldUrl, newUrl, 301);
+        renderRedirectsTable();
+        renderDashboard();
+        showToast('✓ 301 Redirect added.');
+      }
+    }
+
+    // 16. Schema View
+    function renderSchemaView() {
+      const schemaJson = CmsEngine.generateSchemaJson(activePageUrl);
+      document.getElementById('schema-json-output').value = schemaJson;
+    }
+
+    function handleSchemaTypeChange(type) {
+      const page = CmsEngine.getPage(activePageUrl, true);
+      if (page.seo) page.seo.schemaType = type;
+      renderSchemaView();
+    }
+
+    function copySchemaJson() {
+      const json = document.getElementById('schema-json-output').value;
+      navigator.clipboard.writeText(json).then(() => {
+        showToast('📋 Schema JSON-LD copied to clipboard!');
+      });
+    }
+
+    // 17. Change History Table & Rollback
+    function renderHistoryTable() {
+      const history = CmsEngine.getHistory();
+      const tbody = document.getElementById('history-table-body');
+      tbody.innerHTML = '';
+
+      history.forEach(h => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><code style="color: var(--cms-gold);">${h.id}</code></td>
+          <td style="font-size: 11px; color: var(--cms-text-muted);">${h.date}</td>
+          <td><strong>${h.page}</strong></td>
+          <td><span class="cms-badge info">${h.field}</span></td>
+          <td style="color: var(--cms-error); font-size: 11px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${h.oldValue}</td>
+          <td style="color: var(--cms-pass); font-size: 11px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${h.newValue}</td>
+          <td>${h.user}</td>
+          <td><span class="cms-badge ${h.status === 'Active' ? 'pass' : 'warn'}">${h.status}</span></td>
+          <td>
+            ${h.status !== 'Reverted' ? `<button class="btn-cms !py-1 !px-2 !text-[11px]" onclick="handleRollback('${h.id}')">↩️ Revert</button>` : '<span style="color: var(--cms-text-muted); font-size: 11px;">Reverted</span>'}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function handleRollback(histId) {
+      const res = CmsEngine.revertHistoryEntry(histId, 'Admin Master');
+      if (res.success) {
+        showToast(`↩️ ${res.message}`);
+        renderHistoryTable();
+        renderEditor();
+        renderDashboard();
+      } else {
+        alert(res.error);
+      }
+    }
+
+    // 18. Site Settings
+    function renderSettings() {
+      const s = CmsEngine.getSettings();
+      document.getElementById('settings-sitename').value = s.siteName || '';
+      document.getElementById('settings-siteurl').value = s.siteUrl || '';
+      document.getElementById('settings-default-title').value = s.defaultTitle || '';
+      document.getElementById('settings-default-desc').value = s.defaultMetaDesc || '';
+      document.getElementById('settings-default-og').value = s.defaultOgImage || '';
+      document.getElementById('settings-robots').value = s.robotsTxt || '';
+      document.getElementById('settings-sitemap').value = s.sitemapXml || '';
+    }
+
+    function saveSiteSettings() {
+      const updated = {
+        siteName: document.getElementById('settings-sitename').value,
+        siteUrl: document.getElementById('settings-siteurl').value,
+        defaultTitle: document.getElementById('settings-default-title').value,
+        defaultMetaDesc: document.getElementById('settings-default-desc').value,
+        defaultOgImage: document.getElementById('settings-default-og').value,
+        robotsTxt: document.getElementById('settings-robots').value,
+        sitemapXml: document.getElementById('settings-sitemap').value
+      };
+      CmsEngine.updateSettings(updated);
+      showToast('✓ Site Settings saved.');
+    }
+
+    function exportStaticSnapshot() {
+      const pages = CmsEngine.getAllPages(false);
+      const json = JSON.stringify(pages, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `shahicrunch_cms_published_${Date.now()}.json`;
+      a.click();
+      showToast('📥 Exported CMS canonical snapshot JSON.');
+    }
+
+    // 19. Blog Management
+    function renderBlogTable() {
+      const posts = CmsEngine.getBlogPosts();
+      const tbody = document.getElementById('blog-table-body');
+      tbody.innerHTML = '';
+
+      posts.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${p.title}</strong></td>
+          <td><span class="cms-badge">${p.category}</span></td>
+          <td style="font-size: 11px; color: var(--cms-text-muted);">${p.date}</td>
+          <td>${p.author}</td>
+          <td><span class="cms-badge ${p.status === 'Published' ? 'pass' : 'warn'}">${p.status}</span></td>
+          <td>
+            <button class="btn-cms !py-1 !px-2.5 !text-xs" onclick="alert('Post editing is available directly via the Content Block editor.')">Edit</button>
+            <button class="btn-cms btn-cms-danger !py-1 !px-2 !text-xs" onclick="deletePost('${p.id}')">✕</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deletePost(id) {
+      if (confirm('Delete this blog post?')) {
+        CmsEngine.deleteBlogPost(id);
+        renderBlogTable();
+        showToast('Blog post deleted.');
+      }
+    }
+
+    function openNewPostModal() {
+      const title = prompt('Enter Article Title:');
+      if (title) {
+        CmsEngine.saveBlogPost({
+          title,
+          category: 'Craft & Heritage',
+          date: new Date().toISOString().split('T')[0],
+          author: 'Admin Master',
+          status: 'Published',
+          featuredImage: './kesar-pista.jpg',
+          excerpt: 'New royal ice cream chronicle from ShahiCrunch Jaipur.'
+        });
+        renderBlogTable();
+        showToast('✓ New article created.');
+      }
+    }
+
+    // 20. SEO Global Overview
+    function renderSeoOverview() {
+      const allPages = CmsEngine.getAllPages(true);
+      const container = document.getElementById('seo-overview-matrix');
+      container.innerHTML = '';
+
+      Object.values(allPages).forEach(p => {
+        const a = CmsEngine.analyzePage(p.url, true);
+        if (!a) return;
+
+        const row = document.createElement('div');
+        row.style.background = '#0B101E';
+        row.style.border = '1px solid var(--cms-border)';
+        row.style.borderRadius = '10px';
+        row.style.padding = '16px';
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+
+        row.innerHTML = `
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span class="cms-badge ${a.overallGrade === 'PASS' ? 'pass' : (a.overallGrade === 'WARNING' ? 'warn' : 'error')}">${a.overallGrade}</span>
+              <strong style="color: #FFF; font-size: 14px;">${p.name}</strong>
+              <code style="color: var(--cms-gold); font-size: 11px;">${p.url}</code>
+            </div>
+            <div style="font-size: 12px; color: var(--cms-text-secondary);">
+              Focus Keyword: <strong>"${p.seo?.focusKeyword || 'Not set'}"</strong> | Word Count: ${a.wordCount} | Density: ${a.kwDensity}%
+            </div>
+          </div>
+          <button class="btn-cms btn-cms-primary !py-1.5 !px-3" onclick="switchActivePage('${p.url}'); navTo('editor');">
+            Optimize Page →
+          </button>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    // 21. Toast Helper
+    function showToast(msg) {
+      const box = document.getElementById('cms-toast-box');
+      const toast = document.createElement('div');
+      toast.className = 'cms-toast';
+      toast.innerHTML = `<span>👑</span> <span>${msg}</span>`;
+      box.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // 22. Authentication Handlers
+    function checkAuthGate() {
+      const isAuth = CmsEngine.checkAuth();
+      const gate = document.getElementById('cms-auth-gate');
+      if (!isAuth) {
+        gate.style.display = 'flex';
+      } else {
+        gate.style.display = 'none';
+      }
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const pass = document.getElementById('login-password').value;
+      const remember = document.getElementById('login-remember').checked;
+
+      const res = CmsEngine.login(email, pass, remember);
+      if (res.success) {
+        document.getElementById('cms-auth-gate').style.display = 'none';
+        showToast('👑 Welcome back, Admin Master.');
+        navTo('dashboard');
+      } else {
+        const alertBox = document.getElementById('login-error-alert');
+        alertBox.style.display = 'block';
+        alertBox.textContent = res.error;
+      }
+    }
+
+    function handleLogout() {
+      CmsEngine.logout();
+      checkAuthGate();
+      showToast('Logged out of CMS session.');
+    }
+
+    // Initialize CMS
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAuthGate();
+      navTo('dashboard');
+    });
+  </script>
+</body>
+</html>
