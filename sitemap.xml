@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://shahi-crunch-growth-engine.vercel.app/</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://shahi-crunch-growth-engine.vercel.app/hero.jpg</image:loc>
+      <image:title>ShahiCrunch Royal Ice Cream Jaipur</image:title>
+      <image:caption>Handcrafted artisanal ice cream made with Kashmiri saffron and Belgian chocolate</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Flavors & Products -->
+  <url>
+    <loc>https://shahi-crunch-growth-engine.vercel.app/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://shahi-crunch-growth-engine.vercel.app/kesar-pista.jpg</image:loc>
+      <image:title>Kashmiri Kesar Pista Royal Ice Cream</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://shahi-crunch-growth-engine.vercel.app/chocolive.jpg</image:loc>
+      <image:title>Belgian Chocolive Indulgence Ice Cream</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://shahi-crunch-growth-engine.vercel.app/double-crunch.jpg</image:loc>
+      <image:title>Double Crunch Caramel Waffle Fudge Ice Cream</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://shahi-crunch-growth-engine.vercel.app/dry-fruit-raita.jpg</image:loc>
+      <image:title>Dry Fruit Raita Jaipur Heritage Ice Cream</image:title>
+    </image:image>
+  </url>
+
+  <!-- Distributorship B2B -->
+  <url>
+    <loc>https://shahi-crunch-growth-engine.vercel.app/distributor</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Our Story & Heritage -->
+  <url>
+    <loc>https://shahi-crunch-growth-engine.vercel.app/about</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Customer Testimonials -->
+  <url>
+    <loc>https://shahi-crunch-growth-engine.vercel.app/testimonials</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Contact & Parlor Location -->
+  <url>
+    <loc>https://shahi-crunch-growth-engine.vercel.app/contact</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
