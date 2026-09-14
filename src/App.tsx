@@ -21,11 +21,17 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/index.html" element={<Index />} />
           <Route path="/about" element={<About />} />
+          <Route path="/about.html" element={<About />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products.html" element={<Products />} />
           <Route path="/distributor" element={<Distributor />} />
+          <Route path="/distributor.html" element={<Distributor />} />
           <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/testimonials.html" element={<Testimonials />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/contact.html" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
