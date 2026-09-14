@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { Star } from "lucide-react";
 
@@ -10,29 +11,35 @@ const items = [
   { name: "Sandeep Kumar", role: "Retailer · Bikaner", text: "Premium positioning works. We sell ShahiCrunch at top-shelf prices and customers come back for more." },
 ];
 
-const Testimonials = () => (
-  <Layout>
-    <section className="container-tight py-16 text-center">
-      <span className="text-primary text-sm font-semibold tracking-widest uppercase">Loved Across India</span>
-      <h1 className="font-display text-5xl md:text-6xl font-bold mt-3">What our family <span className="text-gradient-gold">says</span></h1>
-      <p className="text-muted-foreground max-w-2xl mx-auto mt-5">Real words from real customers, distributors and retailers.</p>
-    </section>
+const Testimonials = () => {
+  useEffect(() => {
+    document.title = "Customer & Distributor Reviews | ShahiCrunch Ice Cream 4.9★";
+  }, []);
 
-    <section className="container-tight pb-24 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {items.map(t => (
-        <div key={t.name} className="p-7 rounded-2xl bg-card border border-border shadow-card hover:shadow-gold transition-shadow">
-          <div className="flex gap-0.5 text-primary mb-3">
-            {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+  return (
+    <Layout>
+      <section className="container-tight py-16 text-center">
+        <span className="text-primary text-sm font-semibold tracking-widest uppercase">Loved Across India</span>
+        <h1 className="font-display text-5xl md:text-6xl font-bold mt-3">What our family <span className="text-gradient-gold">says</span></h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto mt-5">Real words from real customers, distributors and retailers.</p>
+      </section>
+
+      <section className="container-tight pb-24 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map(t => (
+          <div key={t.name} className="p-7 rounded-2xl bg-card border border-border shadow-card hover:shadow-gold transition-shadow">
+            <div className="flex gap-0.5 text-primary mb-3">
+              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+            </div>
+            <p className="italic text-foreground/85 leading-relaxed">"{t.text}"</p>
+            <div className="mt-5">
+              <div className="font-semibold">{t.name}</div>
+              <div className="text-xs text-muted-foreground">{t.role}</div>
+            </div>
           </div>
-          <p className="italic text-foreground/85 leading-relaxed">"{t.text}"</p>
-          <div className="mt-5">
-            <div className="font-semibold">{t.name}</div>
-            <div className="text-xs text-muted-foreground">{t.role}</div>
-          </div>
-        </div>
-      ))}
-    </section>
-  </Layout>
-);
+        ))}
+      </section>
+    </Layout>
+  );
+};
 
 export default Testimonials;
