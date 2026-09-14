@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,59 +6,47 @@
 
 @layer base {
   :root {
-    /* ShahiCrunch palette — Royal Gold, Cream White, Chocolate Brown */
-    --background: 38 44% 96%;          /* cream white */
-    --foreground: 25 45% 12%;          /* deep chocolate */
+    /* ShahiCrunch Royal Luxury Theme - Midnight Navy Blue, Royal Gold & Pearl White */
+    --background: 40 20% 98%;          /* #FAF8F5 crisp royal ivory */
+    --foreground: 222 47% 11%;         /* #0F172A deep dark slate */
 
-    --card: 38 50% 98%;
-    --card-foreground: 25 45% 12%;
+    --card: 0 0% 100%;                 /* pure crisp white */
+    --card-foreground: 222 47% 11%;
 
-    --popover: 38 50% 98%;
-    --popover-foreground: 25 45% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 33 70% 45%;             /* royal gold */
-    --primary-foreground: 38 50% 98%;
+    --primary: 43 65% 53%;             /* #D4AF37 Royal Gold */
+    --primary-foreground: 222 47% 7%;  /* dark text on gold */
 
-    --secondary: 25 40% 18%;           /* chocolate brown */
-    --secondary-foreground: 38 50% 98%;
+    --secondary: 222 47% 7%;           /* #0B0F19 Midnight Royal Navy Blue */
+    --secondary-foreground: 45 60% 95%;/* royal gold-tinted white */
 
-    --muted: 36 30% 90%;
-    --muted-foreground: 25 20% 35%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 40 80% 55%;              /* bright gold accent */
-    --accent-foreground: 25 45% 12%;
+    --accent: 38 92% 50%;              /* #F59E0B Vibrant Amber Gold */
+    --accent-foreground: 222 47% 7%;
 
     --destructive: 0 75% 45%;
-    --destructive-foreground: 38 50% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 36 25% 85%;
-    --input: 36 25% 85%;
-    --ring: 33 70% 45%;
+    --border: 43 40% 88%;              /* subtle gold-tinted border */
+    --input: 43 40% 88%;
+    --ring: 43 65% 53%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    --gold: 40 75% 52%;
-    --gold-deep: 33 80% 38%;
-    --chocolate: 22 50% 15%;
-    --chocolate-soft: 25 35% 25%;
-    --cream: 38 50% 96%;
+    --gold: 43 65% 53%;
+    --gold-deep: 38 75% 40%;
+    --navy-royal: 222 47% 7%;          /* #0B0F19 */
 
-    --gradient-gold: linear-gradient(135deg, hsl(40 80% 60%), hsl(33 75% 42%));
-    --gradient-chocolate: linear-gradient(160deg, hsl(25 45% 18%), hsl(20 55% 10%));
-    --gradient-hero: linear-gradient(120deg, hsl(22 50% 12% / 0.92), hsl(22 60% 8% / 0.75));
+    --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+    --gradient-hero: linear-gradient(135deg, rgba(11, 15, 25, 0.90) 0%, rgba(11, 15, 25, 0.80) 100%);
+    --gradient-navy: linear-gradient(135deg, #0B0F19 0%, #172033 100%);
 
-    --shadow-gold: 0 20px 50px -20px hsl(33 70% 45% / 0.55);
-    --shadow-soft: 0 12px 40px -16px hsl(25 45% 15% / 0.25);
-    --shadow-card: 0 8px 28px -12px hsl(25 45% 15% / 0.18);
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --shadow-gold: 0 20px 40px -15px rgba(212, 175, 55, 0.35);
+    --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
   }
 }
 
@@ -69,14 +57,15 @@
     font-family: 'Inter', system-ui, sans-serif;
   }
   h1, h2, h3, h4, .font-display {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Playfair Display', Georgia, serif;
     letter-spacing: -0.01em;
   }
 }
 
 @layer utilities {
   .bg-gradient-gold { background-image: var(--gradient-gold); }
-  .bg-gradient-chocolate { background-image: var(--gradient-chocolate); }
+  .bg-gradient-navy { background-image: var(--gradient-navy); }
+  .bg-dark-royal { background-color: #0B0F19; }
   .text-gradient-gold {
     background: var(--gradient-gold);
     -webkit-background-clip: text;
@@ -84,13 +73,12 @@
     color: transparent;
   }
   .shadow-gold { box-shadow: var(--shadow-gold); }
-  .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-card { box-shadow: var(--shadow-card); }
-  .container-tight { @apply max-w-6xl mx-auto px-5 sm:px-8; }
+  .container-tight { @apply max-w-7xl mx-auto px-5 sm:px-8; }
 }
 
 @keyframes float-slow {
   0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
 .animate-float { animation: float-slow 6s ease-in-out infinite; }
