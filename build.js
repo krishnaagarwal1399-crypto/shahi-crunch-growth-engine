@@ -1,5 +1,9 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const dist = path.resolve(__dirname, 'dist');
 if (!fs.existsSync(dist)) {
@@ -11,9 +15,13 @@ const publicDir = path.resolve(__dirname, 'public');
 if (fs.existsSync(publicDir)) {
   for (const file of fs.readdirSync(publicDir)) {
     const src = path.resolve(publicDir, file);
-    if (fs.statSync(src).isFile()) {
-      fs.copyFileSync(src, path.resolve(dist, file));
-      console.log(`[OK] Copied public/${file} -> dist/${file}`);
+    try {
+      if (fs.statSync(src).isFile()) {
+        fs.copyFileSync(src, path.resolve(dist, file));
+        console.log(`[OK] Copied public/${file} -> dist/${file}`);
+      }
+    } catch (e) {
+      console.warn(`Could not copy public/${file}:`, e.message);
     }
   }
 }
