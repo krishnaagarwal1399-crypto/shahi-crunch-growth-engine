@@ -562,7 +562,7 @@
 }
 
 /* ==========================================================================
-   Global Color Utilities & Royal Footer Fallbacks
+   Global Color Utilities & Royal Rich Confectionery Footer Fallbacks
    ========================================================================== */
 .text-white { color: #FFFFFF !important; }
 .text-slate-100 { color: #F1F5F9 !important; }
@@ -570,15 +570,24 @@
 .text-slate-300 { color: #CBD5E1 !important; }
 .text-slate-400 { color: #94A3B8 !important; }
 
-.royal-footer {
-  background: linear-gradient(180deg, #18171C 0%, #0D0C10 100%) !important;
-  color: #E2E8F0 !important;
-  border-top: 2px solid rgba(212, 175, 55, 0.4) !important;
+.royal-rich-footer {
+  background: linear-gradient(165deg, #2A170E 0%, #1B0E08 50%, #0F0703 100%) !important;
+  color: #E5E7EB !important;
+  border-top: 2px solid rgba(212, 175, 55, 0.45) !important;
 }
-.royal-footer a {
+.royal-rich-footer a {
   transition: all 0.2s ease;
+}
+.royal-rich-footer a:hover {
+  color: #F59E0B !important;
+}
+.royal-footer {
+  background: linear-gradient(165deg, #2A170E 0%, #1B0E08 50%, #0F0703 100%) !important;
+  color: #E5E7EB !important;
+  border-top: 2px solid rgba(212, 175, 55, 0.45) !important;
 }
 .royal-footer-shahi {
   color: #FFFFFF !important;
 }
+
 
