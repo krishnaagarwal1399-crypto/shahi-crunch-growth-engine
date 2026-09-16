@@ -46,11 +46,10 @@
     organization: {
       name: 'ShahiCrunch Dairy & Confectionery',
       address: 'MI Road, C-Scheme, Jaipur, Rajasthan, 302001, India',
-      phone: '+91 98765 43210',
       email: 'hello@shahicrunch.in'
     },
     socials: {
-      whatsapp: 'https://wa.me/919876543210',
+      whatsapp: './contact.html',
       instagram: 'https://instagram.com/shahicrunch',
       facebook: 'https://facebook.com/shahicrunch',
       twitter: 'https://x.com/shahicrunch'
@@ -176,7 +175,6 @@
         contactHeadline: 'Partner With Jaipur\'s Royal Ice Cream Brand',
         contactSubheadline: 'Drop your details to apply for distributorship or book a royal tasting.',
         contactAddress: 'MI Road, C-Scheme, Jaipur, Rajasthan, 302001',
-        contactPhone: '+91 98765 43210',
         contactEmail: 'hello@shahicrunch.in'
       },
       internalLinks: [
@@ -340,8 +338,8 @@
         introParagraph: 'Unlock high profitability with an authorized ice cream distributorship rajasthan through ShahiCrunch. We offer attractive gross margins, dedicated deep-freezer branding, point-of-sale promotional backing, and zero temperature-abuse cold-chain logistics across North India.',
         ctaPrimaryText: 'Submit Application Form',
         ctaPrimaryUrl: '#distributor-form',
-        ctaSecondaryText: 'Call Distribution Helpline',
-        ctaSecondaryUrl: 'tel:+919876543210',
+        ctaSecondaryText: 'Corporate Inquiry Desk',
+        ctaSecondaryUrl: './contact.html',
         h2s: [
           'Why Choose Our Ice Cream Distributorship Rajasthan',
           'Commercial Margins & Exceptional Return on Investment',
@@ -435,19 +433,19 @@
       status: 'Published',
       lastUpdated: '2026-09-15',
       seo: {
-        title: 'ShahiCrunch Jaipur Contact | Corporate Office & Helpline',
-        metaDescription: "Official shahicrunch jaipur contact details. Call +91 98765 43210 or visit our MI Road headquarters for orders, tastings and distributorship queries.",
+        title: 'ShahiCrunch Jaipur Contact | Corporate Office & Support',
+        metaDescription: "Official shahicrunch jaipur contact details. Submit an online inquiry or visit our MI Road headquarters for orders, tastings and distributorship queries.",
         focusKeyword: 'shahicrunch jaipur contact',
-        secondaryKeywords: ['ice cream order helpline jaipur', 'shahicrunch office address'],
+        secondaryKeywords: ['ice cream order inquiry jaipur', 'shahicrunch office address'],
         slug: 'contact',
         canonicalUrl: 'https://shahicrunch.in/contact',
         robots: 'index, follow',
-        ogTitle: 'ShahiCrunch Jaipur Contact | Corporate Office & Helpline',
-        ogDescription: 'Connect with ShahiCrunch Dairy & Confectionery in Jaipur. Call +91 98765 43210.',
+        ogTitle: 'ShahiCrunch Jaipur Contact | Corporate Office & Support',
+        ogDescription: 'Connect with ShahiCrunch Dairy & Confectionery in Jaipur via digital CRM support.',
         ogImage: './hero.jpg',
         twitterCard: 'summary_large_image',
-        twitterTitle: 'ShahiCrunch Jaipur Contact | Corporate Office & Helpline',
-        twitterDescription: 'Connect with ShahiCrunch Dairy & Confectionery in Jaipur. Call +91 98765 43210.',
+        twitterTitle: 'ShahiCrunch Jaipur Contact | Corporate Office & Support',
+        twitterDescription: 'Connect with ShahiCrunch Dairy & Confectionery in Jaipur via digital CRM support.',
         twitterImage: './hero.jpg',
         schemaType: 'ContactPage'
       },
@@ -458,8 +456,8 @@
         introParagraph: 'Get in touch via official shahicrunch jaipur contact channels. Whether you want to apply for a regional distributorship, order for a luxury wedding reception, or just share your love for Kesar Pista, our team is at your royal service.',
         ctaPrimaryText: 'Send Direct Message',
         ctaPrimaryUrl: '#inquiry-form',
-        ctaSecondaryText: 'Call Helpline',
-        ctaSecondaryUrl: 'tel:+919876543210',
+        ctaSecondaryText: 'Inquiry Desk',
+        ctaSecondaryUrl: './contact.html',
         h2s: [
           'Official ShahiCrunch Jaipur Contact Information',
           'Quick Corporate & Distribution Inquiry Form',
@@ -472,7 +470,7 @@
         ],
         bodyTextBlocks: [
           'Our central corporate headquarters is conveniently located on MI Road, C-Scheme, Jaipur, Rajasthan 302001. Our offices are open Monday through Saturday from 9:00 AM to 7:00 PM for distributor meetings and corporate inquiries. Utilizing our verified shahicrunch jaipur contact desk guarantees prompt attention to your wholesale requirements.',
-          'For urgent distributor stock dispatch or immediate customer support, reach our phone helpline at +91 98765 43210 or send an email directly to hello@shahicrunch.in. All retail inquiries receive a guaranteed response within 4 business hours.',
+          'For distributor stock dispatch or immediate customer support, submit an inquiry directly or send an email to hello@shahicrunch.in. All retail inquiries receive a guaranteed response within 4 business hours.',
           'We also operate dedicated institutional tasting sessions for wedding event planners, five-star banquet directors, and restaurant chain hospitality managers looking to curate bespoke dessert menus.',
           'Our logistics hub coordinates daily dispatches across Jaipur, Kota, Jodhpur, Bikaner, Ajmer, Udaipur, and NCR with full temperature-monitored refrigerated vehicle tracking.',
           'Prospective franchise partners and dealership applicants are warmly invited to visit our tasting salon and headquarters to sample our complete seasonal portfolio and review detailed territory profit projections in person.',
@@ -1204,7 +1202,7 @@
           'postalCode': '302001',
           'addressCountry': 'IN'
         },
-        'telephone': org.phone,
+        ...(org.phone ? { 'telephone': org.phone } : {}),
         'email': org.email,
         'servesCuisine': 'Ice Cream',
         'areaServed': 'India',
