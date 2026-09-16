@@ -39,8 +39,8 @@
       id: "contact",
       name: "📞 Contact Page",
       slug: "/contact",
-      title: "Contact ShahiCrunch Jaipur | Corporate Office & Order Helpline",
-      desc: "Connect with the ShahiCrunch team at MI Road, C-Scheme, Jaipur. Call +91 98765 43210 for wholesale orders, distributor inquiries, and wedding catering bookings.",
+      title: "Contact ShahiCrunch Jaipur | Corporate Office & Inquiries",
+      desc: "Connect with the ShahiCrunch team at MI Road, C-Scheme, Jaipur. Inquire online for wholesale orders, distributor inquiries, and wedding catering bookings.",
       keyword: "shahicrunch jaipur contact",
       h1: "Partner With Jaipur's Royal Ice Cream Brand"
     }
