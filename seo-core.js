@@ -104,7 +104,6 @@
         { href: '/distributor', anchor: 'Apply For Distributorship', target: 'internal' }
       ],
       externalLinks: [
-        { href: 'tel:+919876543210', anchor: '+91 98765 43210', rel: 'nofollow' },
         { href: 'mailto:hello@shahicrunch.in', anchor: 'hello@shahicrunch.in', rel: 'nofollow' }
       ]
     },
@@ -260,7 +259,7 @@
         { href: '#contact-section', anchor: 'Apply Now', target: 'same_page' }
       ],
       externalLinks: [
-        { href: 'tel:+919876543210', anchor: 'Distributor Helpline: +91 98765 43210', rel: 'nofollow' }
+        { href: './contact.html', anchor: 'Corporate Inquiry Desk', rel: 'nofollow' }
       ]
     },
     '/testimonials': {
@@ -313,9 +312,9 @@
       canonical: 'https://shahicrunch.in/contact',
       name: 'Contact & Inquiries',
       title: 'Contact ShahiCrunch Jaipur | Corporate Office & Order Helpline',
-      description: 'Connect with the ShahiCrunch team at MI Road, C-Scheme, Jaipur. Call +91 98765 43210 for wholesale orders, distributor inquiries, and wedding catering bookings.',
+      description: 'Connect with the ShahiCrunch team at MI Road, C-Scheme, Jaipur. Inquire online for wholesale orders, distributor applications, and wedding catering bookings.',
       focusKeyword: 'shahicrunch jaipur contact',
-      secondaryKeywords: ['ice cream head office jaipur', 'bulk wedding ice cream booking jaipur', 'shahicrunch phone number'],
+      secondaryKeywords: ['ice cream head office jaipur', 'bulk wedding ice cream booking jaipur', 'shahicrunch online inquiry'],
       h1: 'Partner With Jaipur\'s Royal Ice Cream Brand',
       h2s: ['Get In Touch With Our Corporate Team', 'Headquarters Location', 'Send An Inquiry'],
       h3s: ['Corporate Office (C-Scheme)', 'Direct Sales Line', 'Wholesale Bookings'],
@@ -325,7 +324,7 @@
       lastUpdated: '2026-09-04',
       og: {
         title: 'Contact ShahiCrunch Jaipur | Corporate Office & Order Helpline',
-        description: 'Connect with ShahiCrunch at MI Road, Jaipur. Call +91 98765 43210.',
+        description: 'Connect with ShahiCrunch at MI Road, Jaipur via digital CRM support.',
         image: './hero.jpg'
       },
       twitter: {
@@ -350,7 +349,6 @@
         { href: '/distributor', anchor: 'Distributor Details', target: 'internal' }
       ],
       externalLinks: [
-        { href: 'tel:+919876543210', anchor: '+91 98765 43210', rel: 'nofollow' },
         { href: 'mailto:hello@shahicrunch.in', anchor: 'hello@shahicrunch.in', rel: 'nofollow' }
       ]
     }
@@ -545,7 +543,6 @@
       "headline": p.title,
       "description": p.description,
       "url": p.canonical,
-      "telephone": "+91 98765 43210",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "MI Road, C-Scheme",
